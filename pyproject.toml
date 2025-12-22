@@ -1,0 +1,73 @@
+[project]
+name = "strands-agents-playground"
+version = "0.0.1"
+dependencies = [
+  "strands-agents ~= 1.20.0",
+  "strands-agents-tools ~= 0.2.18",
+  "loguru ~= 0.7.3",
+  "gradio ~= 6.2.0",
+  "pydantic ~= 2.12.5"
+]
+requires-python = ">=3.12"
+authors = [
+  { name = "Panagiotis Katsaroumpas", email = "codiply@gmail.com" },
+]
+description = "Playground project for building agentic solutions with Strands Agents"
+
+[tool.hatch.envs.default]
+python = "3.12"
+
+[tool.hatch.envs.default.scripts]
+main = "python src/playground/main.py"
+
+
+## Hatch Environments
+
+[tool.hatch.envs.lint]
+extra-dependencies = [
+  "black ~= 25.12.0",
+  "isort ~= 7.0.0",
+  "pylint ~= 4.0.4",
+  "pylint-pydantic ~= 0.4.1",
+  "mypy ~= 1.19.1"
+]
+
+[tool.hatch.envs.lint.scripts]
+check = [
+  "black src/ --check --diff --color",
+  "isort src/ --check --diff -color",
+  "pylint --load-plugins pylint_pydantic src/ --output-format colorized",
+  "mypy src/"
+]
+fix = [
+  "black src/",
+  "isort src"
+]
+
+## Tool configuration
+
+[tool.black]
+target-version = ["py312"]
+line-length = 120
+
+[tool.isort]
+line_length = 120
+profile = "black"
+
+[tool.pylint]
+max-line-length = 120
+# This is not production code, I skip documentation
+disable = [
+  "missing-module-docstring",
+  "missing-function-docstring",
+  "missing-class-docstring"
+]
+
+[tool.mypy]
+plugins = [
+  "pydantic.mypy"
+]
+
+[[tool.mypy.overrides]]
+module = ["strands_tools.*"]
+follow_untyped_imports = true
