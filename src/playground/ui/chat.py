@@ -36,7 +36,7 @@ def build_ui(agent: Agent) -> gr.ChatInterface:
 
     agent.hooks.add_callback(MessageAddedEvent, lambda event: ui_state.all_messages.append(event.message))
 
-    all_messages_block = gr.Code(language="json", render=False)
+    all_messages_block = gr.Code(language="json", render=False, wrap_lines=True)
 
     with gr.Blocks() as ui:
         with gr.Tab("Chat Interface"):

@@ -214,3 +214,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# CDK asset staging directory
+.cdk.staging
+cdk.out
+
+exports.sh

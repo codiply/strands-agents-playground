@@ -1,4 +1,4 @@
-from playground.agents.my_agent import build_agent
+from playground.agents.builder import build_agent
 from playground.ui.chat import build_ui
 
 agent = build_agent()

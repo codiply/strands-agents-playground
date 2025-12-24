@@ -18,12 +18,24 @@ description = "Playground project for building agentic solutions with Strands Ag
 python = "3.12"
 
 [tool.hatch.envs.default.scripts]
-main = "python src/playground/main.py"
+agent_ui = "python src/playground/main.py"
 
+[project.optional-dependencies]
+cdk-dependencies = [
+  "aws-cdk-lib ~=2.233.0",
+  "constructs >=10.4.4,<11.0.0"
+]
 
 ## Hatch Environments
 
+[tool.hatch.envs.cdk]
+features = ["cdk-dependencies"]
+
+[tool.hatch.envs.cdk.scripts]
+run = "cdk {args}"
+
 [tool.hatch.envs.lint]
+features = ["cdk-dependencies"]
 extra-dependencies = [
   "black ~= 25.12.0",
   "isort ~= 7.0.0",
@@ -34,14 +46,14 @@ extra-dependencies = [
 
 [tool.hatch.envs.lint.scripts]
 check = [
-  "black src/ --check --diff --color",
-  "isort src/ --check --diff -color",
-  "pylint --load-plugins pylint_pydantic src/ --output-format colorized",
-  "mypy src/"
+  "black src/ infra/ --check --diff --color",
+  "isort src/ infra/ --check --diff -color",
+  "pylint --load-plugins pylint_pydantic src/ infra/ --output-format colorized",
+  "mypy src/ infra/"
 ]
 fix = [
-  "black src/",
-  "isort src"
+  "black src/ infra/",
+  "isort src/ infra/"
 ]
 
 ## Tool configuration
