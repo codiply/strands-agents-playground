@@ -2,7 +2,7 @@ from strands import Agent
 from strands.models import BedrockModel
 from strands_tools import current_time
 
-from playground.agents.tools import use_aws as use_aws
+from playground.agents.tools import use_aws
 
 MODEL_ID = "eu.amazon.nova-micro-v1:0"
 # MODEL_ID="eu.amazon.nova-pro-v1:0"

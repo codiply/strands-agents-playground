@@ -1,0 +1,12 @@
+services:
+  agentcore:
+    build: 
+      context: ../
+      dockerfile: docker/images/agentcore/Dockerfile
+    environment:
+      AGENT_TOOL_USE_AWS_PROFILE_NAME: "strands-playground-tool-use-aws"
+    ports:
+      - "8080:8080"
+    volumes:
+      - ~/.aws/:/root/.aws/
+    

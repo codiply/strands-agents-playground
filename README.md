@@ -9,7 +9,21 @@ export CDK_ACCOUNT_ID=
 export CDK_REGION_NAME=
 ```
 
-## Run the agent with UI
+### Base stack
+If you only want to run the agent locally, create only the resources in the base stack
+
+```
+hatch run cdk:run deploy '*-base'
+```
+
+### All stacks
+
+```
+hatch run cdk:run deploy --all
+```
+### 
+
+## Run the agent locally with UI
 
 Add a profile in `~/.aws/config`
 
@@ -25,5 +39,37 @@ export AGENT_TOOL_USE_AWS_PROFILE_NAME=strands-playground-tool-use-aws
 ```
 
 ```
-hatch run agent_ui
+hatch run agent_with_ui
+```
+
+## Test Agent Core locally
+
+Start server with
+
+```
+hatch run agentcore
+```
+
+or the containerised version with
+
+```
+hatch run compose up -d
+```
+
+(use `hatch run compose down` to stop the container)
+
+Test with
+
+```
+curl http://localhost:8080/ping
+```
+
+and
+
+```
+curl -X POST http://localhost:8080/invocations \
+  -H "Content-Type: application/json" \
+  -d '{
+    "input": {"prompt": "What is artificial intelligence?"}
+  }'
 ```

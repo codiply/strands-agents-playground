@@ -4,9 +4,11 @@ version = "0.0.1"
 dependencies = [
   "strands-agents ~= 1.20.0",
   "strands-agents-tools ~= 0.2.18",
+  "bedrock-agentcore ~= 1.1.1",
   "loguru ~= 0.7.3",
   "gradio ~= 6.2.0",
-  "pydantic ~= 2.12.5"
+  "pydantic ~= 2.12.5",
+  "fastapi ~= 0.126.0"
 ]
 requires-python = ">=3.12"
 authors = [
@@ -18,12 +20,15 @@ description = "Playground project for building agentic solutions with Strands Ag
 python = "3.12"
 
 [tool.hatch.envs.default.scripts]
-agent_ui = "python src/playground/main.py"
+agent_with_ui = "python src/playground/local.py"
+agentcore = "uvicorn playground.agentcore:app --host 0.0.0.0 --port 8080"
+compose = "docker compose -f docker/compose.yaml {args}"
 
 [project.optional-dependencies]
 cdk-dependencies = [
   "aws-cdk-lib ~=2.233.0",
-  "constructs >=10.4.4,<11.0.0"
+  "constructs >=10.4.4,<11.0.0",
+  "cdk-ecr-deployment ~= 4.0.5"
 ]
 
 ## Hatch Environments
@@ -32,7 +37,7 @@ cdk-dependencies = [
 features = ["cdk-dependencies"]
 
 [tool.hatch.envs.cdk.scripts]
-run = "cdk {args}"
+run = "cdk {args} --require-approval never"
 
 [tool.hatch.envs.lint]
 features = ["cdk-dependencies"]
