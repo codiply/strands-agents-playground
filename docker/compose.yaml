@@ -3,6 +3,9 @@ services:
     build: 
       context: ../
       dockerfile: docker/images/agentcore/Dockerfile
+      args:
+        AWS_ACCOUNT_ID: $AWS_ACCOUNT_ID
+        AWS_REGION_NAME: $AWS_REGION_NAME
     environment:
       AGENT_TOOL_USE_AWS_PROFILE_NAME: "strands-playground-tool-use-aws"
     ports:

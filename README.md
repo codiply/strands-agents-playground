@@ -5,11 +5,12 @@
 ### Exports
 
 ```
-export CDK_ACCOUNT_ID=
-export CDK_REGION_NAME=
+export AWS_ACCOUNT_ID=
+export AWS_REGION_NAME=
 ```
 
 ### Base stack
+
 If you only want to run the agent locally, create only the resources in the base stack
 
 ```
@@ -21,7 +22,12 @@ hatch run cdk:run deploy '*-base'
 ```
 hatch run cdk:run deploy --all
 ```
-### 
+
+### Destroy all stacks
+
+```
+hatch run cdk:run destroy --all
+```
 
 ## Run the agent locally with UI
 
@@ -42,15 +48,15 @@ export AGENT_TOOL_USE_AWS_PROFILE_NAME=strands-playground-tool-use-aws
 hatch run agent_with_ui
 ```
 
-## Test Agent Core locally
+## Test AgentCore locally
 
-Start server with
+Build docker image with
 
 ```
-hatch run agentcore
+hatch run compose build
 ```
 
-or the containerised version with
+Run the image with
 
 ```
 hatch run compose up -d
@@ -70,6 +76,6 @@ and
 curl -X POST http://localhost:8080/invocations \
   -H "Content-Type: application/json" \
   -d '{
-    "input": {"prompt": "What is artificial intelligence?"}
+    "input": {"prompt": "How many S3 buckets do I have?"}
   }'
 ```
