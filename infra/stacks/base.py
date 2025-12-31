@@ -2,8 +2,8 @@ from aws_cdk import (
     Stack,
 )
 from aws_cdk import aws_iam as iam
-from constructs import Construct
 from common import AWS_ACCOUNT_ID, AWS_REGION_NAME
+from constructs import Construct
 
 
 class BaseStack(Stack):
@@ -15,16 +15,7 @@ class BaseStack(Stack):
             self,
             "tool-use-aws-role",
             role_name=f"{prefix}-tool-use-aws",
-            assumed_by=iam.CompositePrincipal(
-                iam.AccountRootPrincipal(),
-                iam.ServicePrincipal(
-                    "bedrock-agentcore.amazonaws.com",
-                    conditions={
-                        "StringEquals": {"aws:SourceAccount": AWS_ACCOUNT_ID},
-                        "ArnLike": {"aws:SourceArn": f"arn:aws:bedrock-agentcore:{AWS_REGION_NAME}:{AWS_ACCOUNT_ID}:*"},
-                    },
-                ),
-            ),
+            assumed_by=iam.AccountRootPrincipal(),
             managed_policies=[iam.ManagedPolicy.from_aws_managed_policy_name("ReadOnlyAccess")],
         )
 

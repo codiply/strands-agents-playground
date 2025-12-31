@@ -65,6 +65,12 @@ class AgentcoreStack(Stack):
                 "AgentCorePolicy": iam.PolicyDocument(
                     statements=[
                         iam.PolicyStatement(
+                            sid="AssumeToolUseAwsRole",
+                            effect=iam.Effect.ALLOW,
+                            actions=["sts:AssumeRole"],
+                            resources=[tool_use_aws_role.role_arn],
+                        ),
+                        iam.PolicyStatement(
                             sid="ECRImageAccess",
                             effect=iam.Effect.ALLOW,
                             actions=[
@@ -139,12 +145,6 @@ class AgentcoreStack(Stack):
                                 "arn:aws:bedrock:*::foundation-model/*",
                                 f"arn:aws:bedrock:{AWS_REGION_NAME}:{AWS_ACCOUNT_ID}:*",
                             ],
-                        ),
-                        iam.PolicyStatement(
-                            sid="AssumeToolUseAwsRole",
-                            effect=iam.Effect.ALLOW,
-                            actions=["sts:AssumeRole"],
-                            resources=[tool_use_aws_role.role_arn],
                         ),
                     ]
                 )
