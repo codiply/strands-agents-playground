@@ -6,7 +6,6 @@ dependencies = [
   "strands-agents-tools ~= 0.2.18",
   "bedrock-agentcore ~= 1.1.1",
   "loguru ~= 0.7.3",
-  "gradio ~= 6.2.0",
   "pydantic ~= 2.12.5",
   "fastapi ~= 0.126.0"
 ]
@@ -30,8 +29,17 @@ cdk-dependencies = [
   "constructs >=10.4.4,<11.0.0",
   "cdk-ecr-deployment ~= 4.0.5"
 ]
+ui-dependencies = [
+  "gradio ~= 6.2.0",
+]
 
 ## Hatch Environments
+
+[tool.hatch.envs.ui]
+features = ["ui-dependencies"]
+
+[tool.hatch.envs.ui.scripts]
+run = "python src/playground/local.py"
 
 [tool.hatch.envs.cdk]
 features = ["cdk-dependencies"]
@@ -59,6 +67,12 @@ check = [
 fix = [
   "black src/ infra/",
   "isort src/ infra/"
+]
+
+[tool.hatch.envs.ide_interpreter]
+features = [
+  "ui-dependencies", 
+  "cdk-dependencies"
 ]
 
 ## Tool configuration

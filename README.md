@@ -45,7 +45,7 @@ export AGENT_TOOL_USE_AWS_PROFILE_NAME=strands-playground-tool-use-aws
 ```
 
 ```
-hatch run agent_with_ui
+hatch run ui:run
 ```
 
 ## Test AgentCore locally
@@ -79,3 +79,15 @@ curl -X POST http://localhost:8080/invocations \
     "input": {"prompt": "How many S3 buckets do I have?"}
   }'
 ```
+
+## Interpreter location for IDE
+
+```
+hatch env create ide_interpreter
+echo "$(hatch env find ide_interpreter)/bin"
+```
+
+## TODO
+
+- Limit file_read to a specific directory
+- Bump agentcore runtime version every time there is a new docker image
