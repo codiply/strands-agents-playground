@@ -2,9 +2,7 @@ import pathlib
 
 import aws_cdk as cdk
 import cdk_ecr_deployment as ecrdeploy
-from aws_cdk import (
-    Stack,
-)
+from aws_cdk import Stack
 from aws_cdk import aws_bedrockagentcore as bedrockagentcore
 from aws_cdk import aws_ecr as ecr
 from aws_cdk import aws_ecr_assets as ecr_assets
@@ -167,6 +165,8 @@ class AgentcoreStack(Stack):
             description="Runtime for playground agent",
             environment_variables={
                 "AGENT_TOOL_USE_AWS_PROFILE_NAME": AGENT_TOOL_USE_AWS_PROFILE_NAME,
+                # This ensures that the runtime is updated when we update the code
+                "DOCKER_IMAGE_ASSET_HASH": docker_image.asset_hash,
             },
             lifecycle_configuration=bedrockagentcore.CfnRuntime.LifecycleConfigurationProperty(
                 idle_runtime_session_timeout=10 * 60, max_lifetime=60 * 60
@@ -180,4 +180,5 @@ class AgentcoreStack(Stack):
             "agentcore-runtime-endpoint",
             agent_runtime_id=agentcore_runtime.attr_agent_runtime_id,
             name=f"{prefix.replace("-", "_")}_agentcore_runtime_endpoint",
+            agent_runtime_version=agentcore_runtime.attr_agent_runtime_version,
         )

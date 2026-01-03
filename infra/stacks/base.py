@@ -2,7 +2,6 @@ from aws_cdk import (
     Stack,
 )
 from aws_cdk import aws_iam as iam
-from common import AWS_ACCOUNT_ID, AWS_REGION_NAME
 from constructs import Construct
 
 

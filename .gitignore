@@ -220,3 +220,6 @@ __marimo__/
 cdk.out
 
 exports.sh
+
+# Mac
+.DS_Store

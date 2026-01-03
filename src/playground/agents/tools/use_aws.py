@@ -6,15 +6,19 @@ from strands.types.tools import ToolResult, ToolUse
 from strands_tools.use_aws import TOOL_SPEC as ORIGINAL_TOOL_SPEC
 from strands_tools.use_aws import use_aws as original_use_aws
 
+# Make a deep copy of the original TOOL_SPEC.
+# Strands Agents expects this to be called TOOL_SPEC within the module
 TOOL_SPEC = copy.deepcopy(ORIGINAL_TOOL_SPEC)
 
 # Remove the profile_name parameter from the spec
 del TOOL_SPEC["inputSchema"]["json"]["properties"]["profile_name"]  # type: ignore
 
-PROFILE_NAME_ENV_VARIABLE = "AGENT_TOOL_USE_AWS_PROFILE_NAME"
+
+# The environment variable must be set. I let it fail if not.
+PROFILE_NAME = os.environ["AGENT_TOOL_USE_AWS_PROFILE_NAME"]
 
 
 def use_aws(tool: ToolUse, **kwargs: Any) -> ToolResult:
-    if PROFILE_NAME_ENV_VARIABLE in os.environ:
-        tool["input"]["profile_name"] = os.environ[PROFILE_NAME_ENV_VARIABLE]
+    tool["input"]["profile_name"] = PROFILE_NAME
+
     return original_use_aws(tool, **kwargs)
