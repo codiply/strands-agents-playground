@@ -10,6 +10,9 @@ from strands_tools.use_aws import use_aws as original_use_aws
 # Strands Agents expects this to be called TOOL_SPEC within the module
 TOOL_SPEC = copy.deepcopy(ORIGINAL_TOOL_SPEC)
 
+# Set a new name for our own implementation
+TOOL_SPEC["name"] = "controlled_use_aws"
+
 # Remove the profile_name parameter from the spec
 del TOOL_SPEC["inputSchema"]["json"]["properties"]["profile_name"]  # type: ignore
 
@@ -18,7 +21,7 @@ del TOOL_SPEC["inputSchema"]["json"]["properties"]["profile_name"]  # type: igno
 PROFILE_NAME = os.environ["AGENT_TOOL_USE_AWS_PROFILE_NAME"]
 
 
-def use_aws(tool: ToolUse, **kwargs: Any) -> ToolResult:
+def controlled_use_aws(tool: ToolUse, **kwargs: Any) -> ToolResult:
     tool["input"]["profile_name"] = PROFILE_NAME
 
     return original_use_aws(tool, **kwargs)
